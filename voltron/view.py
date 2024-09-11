@@ -264,11 +264,6 @@ class TerminalView (VoltronView):
         if cursor:
             cursor.show()
 
-    def clear(self):
-        # blessed's clear doesn't work properly on windaz
-        # maybe figure out the right way to do it some time
-        os.system('clear')
-
     def render(self, results):
         self.do_render()
 
@@ -286,7 +281,7 @@ class TerminalView (VoltronView):
 
         if self.body != self.last_body:
             # Clear the screen
-            self.clear()
+            print(self.t.clear)
 
             # Print the header, body and footer
             try:
