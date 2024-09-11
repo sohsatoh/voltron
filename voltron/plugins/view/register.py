@@ -13,142 +13,342 @@ from voltron.api import *
 log = logging.getLogger("view")
 
 
-class RegisterView (TerminalView):
+class RegisterView(TerminalView):
     FORMAT_INFO = {
-        'x86_64': [
+        "x86_64": [
             {
-                'regs':             ['rax','rbx','rcx','rdx','rbp','rsp','rdi','rsi','rip',
-                                     'r8','r9','r10','r11','r12','r13','r14','r15'],
-                'label_format':     '{0:3s}',
-                'category':         'general',
+                "regs": [
+                    "rax",
+                    "rbx",
+                    "rcx",
+                    "rdx",
+                    "rbp",
+                    "rsp",
+                    "rdi",
+                    "rsi",
+                    "rip",
+                    "r8",
+                    "r9",
+                    "r10",
+                    "r11",
+                    "r12",
+                    "r13",
+                    "r14",
+                    "r15",
+                ],
+                "label_format": "{0:3s}",
+                "category": "general",
             },
             {
-                'regs':             ['cs','ds','es','fs','gs','ss'],
-                'value_format':     SHORT_ADDR_FORMAT_16,
-                'category':         'general',
+                "regs": ["cs", "ds", "es", "fs", "gs", "ss"],
+                "value_format": SHORT_ADDR_FORMAT_16,
+                "category": "general",
             },
             {
-                'regs':             ['rflags'],
-                'value_format':     '{}',
-                'value_func':       'format_flags',
-                'value_colour_en':  False,
-                'category':         'general',
+                "regs": ["rflags"],
+                "value_format": "{}",
+                "value_func": "format_flags",
+                "value_colour_en": False,
+                "category": "general",
             },
             {
-                'regs':             ['rflags'],
-                'value_format':     '{}',
-                'value_func':       'format_jump',
-                'value_colour_en':  False,
-                'category':         'general',
-                'format_name':      'jump'
+                "regs": ["rflags"],
+                "value_format": "{}",
+                "value_func": "format_jump",
+                "value_colour_en": False,
+                "category": "general",
+                "format_name": "jump",
             },
             {
-                'regs':             ['xmm0','xmm1','xmm2','xmm3','xmm4','xmm5','xmm6','xmm7','xmm8',
-                                     'xmm9','xmm10','xmm11','xmm12','xmm13','xmm14','xmm15'],
-                'value_format':     SHORT_ADDR_FORMAT_128,
-                'value_func':       'format_xmm',
-                'category':         'sse',
+                "regs": [
+                    "xmm0",
+                    "xmm1",
+                    "xmm2",
+                    "xmm3",
+                    "xmm4",
+                    "xmm5",
+                    "xmm6",
+                    "xmm7",
+                    "xmm8",
+                    "xmm9",
+                    "xmm10",
+                    "xmm11",
+                    "xmm12",
+                    "xmm13",
+                    "xmm14",
+                    "xmm15",
+                ],
+                "value_format": SHORT_ADDR_FORMAT_128,
+                "value_func": "format_xmm",
+                "category": "sse",
             },
             {
-                'regs':             ['st0','st1','st2','st3','st4','st5','st6','st7'],
-                'value_format':     '{0:0=20X}',
-                'value_func':       'format_fpu',
-                'category':         'fpu',
-            },
-        ],
-        'x86': [
-            {
-                'regs':             ['eax','ebx','ecx','edx','ebp','esp','edi','esi','eip'],
-                'label_format':     '{0:3s}',
-                'value_format':     SHORT_ADDR_FORMAT_32,
-                'category':         'general',
-            },
-            {
-                'regs':             ['cs','ds','es','fs','gs','ss'],
-                'value_format':     SHORT_ADDR_FORMAT_16,
-                'category':         'general',
-            },
-            {
-                'regs':             ['eflags'],
-                'value_format':     '{}',
-                'value_func':       'format_flags',
-                'value_colour_en':  False,
-                'category':         'general',
-            },
-            {
-                'regs':             ['eflags'],
-                'value_format':     '{}',
-                'value_func':       'format_jump',
-                'value_colour_en':  False,
-                'category':         'general',
-                'format_name':      'jump'
-            },
-            {
-                'regs':             ['xmm0','xmm1','xmm2','xmm3','xmm4','xmm5','xmm6','xmm7'],
-                'value_format':     SHORT_ADDR_FORMAT_128,
-                'value_func':       'format_xmm',
-                'category':         'sse',
-            },
-            {
-                'regs':             ['st0','st1','st2','st3','st4','st5','st6','st7'],
-                'value_format':     '{0:0=20X}',
-                'value_func':       'format_fpu',
-                'category':         'fpu',
+                "regs": ["st0", "st1", "st2", "st3", "st4", "st5", "st6", "st7"],
+                "value_format": "{0:0=20X}",
+                "value_func": "format_fpu",
+                "category": "fpu",
             },
         ],
-        'arm': [
+        "x86": [
             {
-                'regs':             ['pc','sp','lr','cpsr','r0','r1','r2','r3','r4','r5','r6',
-                                    'r7','r8','r9','r10','r11','r12'],
-                'label_format':     '{0:>3s}',
-                'value_format':     SHORT_ADDR_FORMAT_32,
-                'category':         'general',
+                "regs": ["eax", "ebx", "ecx", "edx", "ebp", "esp", "edi", "esi", "eip"],
+                "label_format": "{0:3s}",
+                "value_format": SHORT_ADDR_FORMAT_32,
+                "category": "general",
+            },
+            {
+                "regs": ["cs", "ds", "es", "fs", "gs", "ss"],
+                "value_format": SHORT_ADDR_FORMAT_16,
+                "category": "general",
+            },
+            {
+                "regs": ["eflags"],
+                "value_format": "{}",
+                "value_func": "format_flags",
+                "value_colour_en": False,
+                "category": "general",
+            },
+            {
+                "regs": ["eflags"],
+                "value_format": "{}",
+                "value_func": "format_jump",
+                "value_colour_en": False,
+                "category": "general",
+                "format_name": "jump",
+            },
+            {
+                "regs": [
+                    "xmm0",
+                    "xmm1",
+                    "xmm2",
+                    "xmm3",
+                    "xmm4",
+                    "xmm5",
+                    "xmm6",
+                    "xmm7",
+                ],
+                "value_format": SHORT_ADDR_FORMAT_128,
+                "value_func": "format_xmm",
+                "category": "sse",
+            },
+            {
+                "regs": ["st0", "st1", "st2", "st3", "st4", "st5", "st6", "st7"],
+                "value_format": "{0:0=20X}",
+                "value_func": "format_fpu",
+                "category": "fpu",
+            },
+        ],
+        "arm": [
+            {
+                "regs": [
+                    "pc",
+                    "sp",
+                    "lr",
+                    "cpsr",
+                    "r0",
+                    "r1",
+                    "r2",
+                    "r3",
+                    "r4",
+                    "r5",
+                    "r6",
+                    "r7",
+                    "r8",
+                    "r9",
+                    "r10",
+                    "r11",
+                    "r12",
+                ],
+                "label_format": "{0:>3s}",
+                "value_format": SHORT_ADDR_FORMAT_32,
+                "category": "general",
             }
         ],
-        'arm64': [
+        "arm64": [
             {
-                'regs':             ['pc', 'sp', 'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10',
-                                    'x11', 'x12', 'x13', 'x14', 'x15', 'x16', 'x17', 'x18', 'x19', 'x20',
-                                    'x21', 'x22', 'x23', 'x24', 'x25', 'x26', 'x27', 'x28', 'x29', 'x30'],
-                'label_format':     '{0:3s}',
-                'value_format':     SHORT_ADDR_FORMAT_64,
-                'category':         'general',
+                "regs": [
+                    "pc",
+                    "sp",
+                    "x0",
+                    "x1",
+                    "x2",
+                    "x3",
+                    "x4",
+                    "x5",
+                    "x6",
+                    "x7",
+                    "x8",
+                    "x9",
+                    "x10",
+                    "x11",
+                    "x12",
+                    "x13",
+                    "x14",
+                    "x15",
+                    "x16",
+                    "x17",
+                    "x18",
+                    "x19",
+                    "x20",
+                    "x21",
+                    "x22",
+                    "x23",
+                    "x24",
+                    "x25",
+                    "x26",
+                    "x27",
+                    "x28",
+                    "x29",
+                    "x30",
+                ],
+                "label_format": "{0:3s}",
+                "value_format": SHORT_ADDR_FORMAT_64,
+                "category": "general",
             },
         ],
-        'arm64e': [
+        "aarch64": [
             {
-                'regs':             ['pc', 'sp', 'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10',
-                                    'x11', 'x12', 'x13', 'x14', 'x15', 'x16', 'x17', 'x18', 'x19', 'x20',
-                                    'x21', 'x22', 'x23', 'x24', 'x25', 'x26', 'x27', 'x28', 'x29', 'x30'],
-                'label_format':     '{0:3s}',
-                'value_format':     SHORT_ADDR_FORMAT_64,
-                'category':         'general',
+                "regs": [
+                    "pc",
+                    "sp",
+                    "x0",
+                    "x1",
+                    "x2",
+                    "x3",
+                    "x4",
+                    "x5",
+                    "x6",
+                    "x7",
+                    "x8",
+                    "x9",
+                    "x10",
+                    "x11",
+                    "x12",
+                    "x13",
+                    "x14",
+                    "x15",
+                    "x16",
+                    "x17",
+                    "x18",
+                    "x19",
+                    "x20",
+                    "x21",
+                    "x22",
+                    "x23",
+                    "x24",
+                    "x25",
+                    "x26",
+                    "x27",
+                    "x28",
+                    "fp",
+                    "lr",
+                    "cpsr",
+                ],
+                "label_format": "{0:3s}",
+                "value_format": SHORT_ADDR_FORMAT_64,
+                "category": "general",
             },
         ],
-        'powerpc': [
+        "arm64e": [
             {
-                'regs':             ['pc','msr','cr','lr', 'ctr',
-                                     'r0','r1','r2','r3','r4','r5','r6', 'r7',
-                                     'r8','r9','r10','r11','r12','r13','r14', 'r15',
-                                     'r16','r17','r18','r19','r20','r21','r22', 'r23',
-                                     'r24','r25','r26','r27','r28','r29','r30', 'r31'],
-                'label_format':     '{0:>3s}',
-                'value_format':     SHORT_ADDR_FORMAT_32,
-                'category':         'general',
+                "regs": [
+                    "pc",
+                    "sp",
+                    "x0",
+                    "x1",
+                    "x2",
+                    "x3",
+                    "x4",
+                    "x5",
+                    "x6",
+                    "x7",
+                    "x8",
+                    "x9",
+                    "x10",
+                    "x11",
+                    "x12",
+                    "x13",
+                    "x14",
+                    "x15",
+                    "x16",
+                    "x17",
+                    "x18",
+                    "x19",
+                    "x20",
+                    "x21",
+                    "x22",
+                    "x23",
+                    "x24",
+                    "x25",
+                    "x26",
+                    "x27",
+                    "x28",
+                    "x29",
+                    "x30",
+                ],
+                "label_format": "{0:3s}",
+                "value_format": SHORT_ADDR_FORMAT_64,
+                "category": "general",
+            },
+        ],
+        "powerpc": [
+            {
+                "regs": [
+                    "pc",
+                    "msr",
+                    "cr",
+                    "lr",
+                    "ctr",
+                    "r0",
+                    "r1",
+                    "r2",
+                    "r3",
+                    "r4",
+                    "r5",
+                    "r6",
+                    "r7",
+                    "r8",
+                    "r9",
+                    "r10",
+                    "r11",
+                    "r12",
+                    "r13",
+                    "r14",
+                    "r15",
+                    "r16",
+                    "r17",
+                    "r18",
+                    "r19",
+                    "r20",
+                    "r21",
+                    "r22",
+                    "r23",
+                    "r24",
+                    "r25",
+                    "r26",
+                    "r27",
+                    "r28",
+                    "r29",
+                    "r30",
+                    "r31",
+                ],
+                "label_format": "{0:>3s}",
+                "value_format": SHORT_ADDR_FORMAT_32,
+                "category": "general",
             }
         ],
     }
     TEMPLATES = {
-        'x86_64': {
-            'horizontal': {
-                'general': (
+        "x86_64": {
+            "horizontal": {
+                "general": (
                     "{raxl} {rax}  {rbxl} {rbx}  {rbpl} {rbp}  {rspl} {rsp}  {rflags}\n"
                     "{rdil} {rdi}  {rsil} {rsi}  {rdxl} {rdx}  {rcxl} {rcx}  {ripl} {rip}\n"
                     "{r8l} {r8}  {r9l} {r9}  {r10l} {r10}  {r11l} {r11}  {r12l} {r12}\n"
                     "{r13l} {r13}  {r14l} {r14}  {r15l} {r15}\n"
                     "{csl} {cs}  {dsl} {ds}  {esl} {es}  {fsl} {fs}  {gsl} {gs}  {ssl} {ss} {jump}"
                 ),
-                'sse': (
+                "sse": (
                     "{xmm0l}  {xmm0} {xmm1l}  {xmm1} {xmm2l}  {xmm2}\n"
                     "{xmm3l}  {xmm3} {xmm4l}  {xmm4} {xmm5l}  {xmm5}\n"
                     "{xmm6l}  {xmm6} {xmm7l}  {xmm7} {xmm8l}  {xmm8}\n"
@@ -156,13 +356,13 @@ class RegisterView (TerminalView):
                     "{xmm12l} {xmm12} {xmm13l} {xmm13} {xmm14l} {xmm14}\n"
                     "{xmm15l} {xmm15}\n"
                 ),
-                'fpu': (
+                "fpu": (
                     "{st0l} {st0} {st1l} {st1} {st2l} {st2} {st3l} {st2}\n"
                     "{st4l} {st4} {st5l} {st5} {st6l} {st6} {st7l} {st7}\n"
-                )
+                ),
             },
-            'vertical': {
-                'general': (
+            "vertical": {
+                "general": (
                     "{rflags}\n{jump}\n"
                     "{ripl} {rip}{ripinfo}\n"
                     "{raxl} {rax}{raxinfo}\n"
@@ -183,37 +383,37 @@ class RegisterView (TerminalView):
                     "{r15l} {r15}{r15info}\n"
                     "{csl}  {cs}  {dsl}  {ds}\n{esl}  {es}  {fsl}  {fs}\n{gsl}  {gs}  {ssl}  {ss}"
                 ),
-                'sse': (
+                "sse": (
                     "{xmm0l}  {xmm0}\n{xmm1l}  {xmm1}\n{xmm2l}  {xmm2}\n{xmm3l}  {xmm3}\n"
                     "{xmm4l}  {xmm4}\n{xmm5l}  {xmm5}\n{xmm6l}  {xmm6}\n{xmm7l}  {xmm7}\n"
                     "{xmm8l}  {xmm8}\n{xmm9l}  {xmm9}\n{xmm10l} {xmm10}\n{xmm11l} {xmm11}\n"
                     "{xmm12l} {xmm12}\n{xmm13l} {xmm13}\n{xmm14l} {xmm14}\n{xmm15l} {xmm15}"
                 ),
-                'fpu': (
+                "fpu": (
                     "{st0l} {st0}\n{st1l} {st1}\n{st2l} {st2}\n{st3l} {st2}\n"
                     "{st4l} {st4}\n{st5l} {st5}\n{st6l} {st6}\n{st7l} {st7}\n"
-                )
-            }
+                ),
+            },
         },
-        'x86': {
-            'horizontal': {
-                'general': (
+        "x86": {
+            "horizontal": {
+                "general": (
                     "{eaxl} {eax}  {ebxl} {ebx}  {ebpl} {ebp}  {espl} {esp}  {eflags}\n"
                     "{edil} {edi}  {esil} {esi}  {edxl} {edx}  {ecxl} {ecx}  {eipl} {eip}\n"
                     "{csl} {cs}  {dsl} {ds}  {esl} {es}  {fsl} {fs}  {gsl} {gs}  {ssl} {ss} {jump}"
                 ),
-                'sse': (
+                "sse": (
                     "{xmm0l}  {xmm0} {xmm1l}  {xmm1} {xmm2l}  {xmm2}\n"
                     "{xmm3l}  {xmm3} {xmm4l}  {xmm4} {xmm5l}  {xmm5}\n"
                     "{xmm6l}  {xmm6} {xmm7l}"
                 ),
-                'fpu': (
+                "fpu": (
                     "{st0l} {st0} {st1l} {st1} {st2l} {st2} {st3l} {st2}\n"
                     "{st4l} {st4} {st5l} {st5} {st6l} {st6} {st7l} {st7}\n"
-                )
+                ),
             },
-            'vertical': {
-                'general': (
+            "vertical": {
+                "general": (
                     "{eflags}\n{jump}\n"
                     "{eipl} {eip}{eipinfo}\n"
                     "{eaxl} {eax}{eaxinfo}\n"
@@ -226,26 +426,26 @@ class RegisterView (TerminalView):
                     "{ecxl} {ecx}{ecxinfo}\n"
                     "{csl}  {cs}\n{dsl}  {ds}\n{esl}  {es}\n{fsl}  {fs}\n{gsl}  {gs}\n{ssl}  {ss}"
                 ),
-                'sse': (
+                "sse": (
                     "{xmm0l}  {xmm0}\n{xmm1l}  {xmm1}\n{xmm2l}  {xmm2}\n{xmm3l}  {xmm3}\n"
                     "{xmm4l}  {xmm4}\n{xmm5l}  {xmm5}\n{xmm6l}  {xmm6}\n{xmm7l}  {xmm7}\n"
                 ),
-                'fpu': (
+                "fpu": (
                     "{st0l} {st0}\n{st1l} {st1}\n{st2l} {st2}\n{st3l} {st2}\n"
                     "{st4l} {st4}\n{st5l} {st5}\n{st6l} {st6}\n{st7l} {st7}\n"
-                )
-            }
+                ),
+            },
         },
-        'arm': {
-            'horizontal': {
-                'general': (
+        "arm": {
+            "horizontal": {
+                "general": (
                     "{pcl} {pc} {spl} {sp} {lrl} {lr} {cpsrl} {cpsr}\n"
                     "{r0l} {r0} {r1l} {r1} {r2l} {r2} {r3l} {r3} {r4l} {r4} {r5l} {r5} {r6l} {r6}\n"
                     "{r7l} {r7} {r8l} {r8} {r9l} {r9} {r10l} {r10} {r11l} {r11} {r12l} {r12}"
                 ),
             },
-            'vertical': {
-                'general': (
+            "vertical": {
+                "general": (
                     "{pcl} {pc}{pcinfo}\n"
                     "{spl} {sp}{spinfo}\n"
                     "{lrl} {lr}{lrinfo}\n"
@@ -264,11 +464,11 @@ class RegisterView (TerminalView):
                     "{r12l} {r12}{r12info}\n"
                     "{cpsrl}{cpsr}"
                 ),
-            }
+            },
         },
-        'powerpc': {
-            'horizontal': {
-                'general': (
+        "powerpc": {
+            "horizontal": {
+                "general": (
                     "{pcl} {pc} {crl} {cr} {lrl} {lr} {msrl} {msr} {ctrl} {ctr}\n"
                     "{r0l} {r0} {r1l} {r1} {r2l} {r2} {r3l} {r3}\n"
                     "{r4l} {r4} {r5l} {r5} {r6l} {r6} {r7l} {r7}\n"
@@ -280,8 +480,8 @@ class RegisterView (TerminalView):
                     "{r28l} {r28} {r29l} {r29} {r30l} {r30} {r31l} {r31}"
                 ),
             },
-            'vertical': {
-                'general': (
+            "vertical": {
+                "general": (
                     "{pcl} {pc}{pcinfo}\n"
                     "{crl} {cr}{crinfo}\n"
                     "{lrl} {lr}{lrinfo}\n"
@@ -320,11 +520,11 @@ class RegisterView (TerminalView):
                     "{r30l} {r30}{r30info}\n"
                     "{r31l} {r31}{r31info}"
                 ),
-            }
+            },
         },
-        'arm64': {
-            'horizontal': {
-                'general': (
+        "arm64": {
+            "horizontal": {
+                "general": (
                     "{pcl} {pc}{pcinfo}\n"
                     "{spl} {sp}{spinfo}\n"
                     "{x0l} {x0}{x0info}\n"
@@ -360,47 +560,8 @@ class RegisterView (TerminalView):
                     "{x30l} {x30}{x30info}\n"
                 ),
             },
-            'vertical': {
-                'general': (
-                    "{pcl} {pc}{pcinfo}\n"
-                    "{spl} {sp}{spinfo}\n"
-                    "{x0l} {x0}{x0info}\n"
-                    "{x1l} {x1}{x1info}\n"
-                    "{x2l} {x2}{x2info}\n"
-                    "{x3l} {x3}{x3info}\n"
-                    "{x4l} {x4}{x4info}\n"
-                    "{x5l} {x5}{x5info}\n"
-                    "{x6l} {x6}{x6info}\n"
-                    "{x7l} {x7}{x7info}\n"
-                    "{x8l} {x8}{x8info}\n"
-                    "{x9l} {x9}{x9info}\n"
-                    "{x10l} {x10}{x10info}\n"
-                    "{x11l} {x11}{x11info}\n"
-                    "{x12l} {x12}{x12info}\n"
-                    "{x13l} {x13}{x13info}\n"
-                    "{x14l} {x14}{x14info}\n"
-                    "{x15l} {x15}{x15info}\n"
-                    "{x16l} {x16}{x16info}\n"
-                    "{x17l} {x17}{x17info}\n"
-                    "{x18l} {x18}{x18info}\n"
-                    "{x19l} {x19}{x19info}\n"
-                    "{x20l} {x20}{x20info}\n"
-                    "{x21l} {x21}{x21info}\n"
-                    "{x22l} {x22}{x22info}\n"
-                    "{x23l} {x23}{x23info}\n"
-                    "{x24l} {x24}{x24info}\n"
-                    "{x25l} {x25}{x25info}\n"
-                    "{x26l} {x26}{x26info}\n"
-                    "{x27l} {x27}{x27info}\n"
-                    "{x28l} {x28}{x28info}\n"
-                    "{x29l} {x29}{x29info}\n"
-                    "{x30l} {x30}{x30info}\n"
-                ),
-            }
-        },
-        'arm64e': {
-            'horizontal': {
-                'general': (
+            "vertical": {
+                "general": (
                     "{pcl} {pc}{pcinfo}\n"
                     "{spl} {sp}{spinfo}\n"
                     "{x0l} {x0}{x0info}\n"
@@ -436,8 +597,10 @@ class RegisterView (TerminalView):
                     "{x30l} {x30}{x30info}\n"
                 ),
             },
-            'vertical': {
-                'general': (
+        },
+        "aarch64": {
+            "horizontal": {
+                "general": (
                     "{pcl} {pc}{pcinfo}\n"
                     "{spl} {sp}{spinfo}\n"
                     "{x0l} {x0}{x0info}\n"
@@ -472,10 +635,133 @@ class RegisterView (TerminalView):
                     "{x29l} {x29}{x29info}\n"
                     "{x30l} {x30}{x30info}\n"
                 ),
-            }
-        }
+            },
+            "vertical": {
+                "general": (
+                    "{pcl} {pc}{pcinfo}\n"
+                    "{spl} {sp}{spinfo}\n"
+                    "{x0l} {x0}{x0info}\n"
+                    "{x1l} {x1}{x1info}\n"
+                    "{x2l} {x2}{x2info}\n"
+                    "{x3l} {x3}{x3info}\n"
+                    "{x4l} {x4}{x4info}\n"
+                    "{x5l} {x5}{x5info}\n"
+                    "{x6l} {x6}{x6info}\n"
+                    "{x7l} {x7}{x7info}\n"
+                    "{x8l} {x8}{x8info}\n"
+                    "{x9l} {x9}{x9info}\n"
+                    "{x10l} {x10}{x10info}\n"
+                    "{x11l} {x11}{x11info}\n"
+                    "{x12l} {x12}{x12info}\n"
+                    "{x13l} {x13}{x13info}\n"
+                    "{x14l} {x14}{x14info}\n"
+                    "{x15l} {x15}{x15info}\n"
+                    "{x16l} {x16}{x16info}\n"
+                    "{x17l} {x17}{x17info}\n"
+                    "{x18l} {x18}{x18info}\n"
+                    "{x19l} {x19}{x19info}\n"
+                    "{x20l} {x20}{x20info}\n"
+                    "{x21l} {x21}{x21info}\n"
+                    "{x22l} {x22}{x22info}\n"
+                    "{x23l} {x23}{x23info}\n"
+                    "{x24l} {x24}{x24info}\n"
+                    "{x25l} {x25}{x25info}\n"
+                    "{x26l} {x26}{x26info}\n"
+                    "{x27l} {x27}{x27info}\n"
+                    "{x28l} {x28}{x28info}\n"
+                    "{x29l} {x29}{x29info}\n"
+                    "{x30l} {x30}{x30info}\n"
+                ),
+            },
+        },
+        "arm64e": {
+            "horizontal": {
+                "general": (
+                    "{pcl} {pc}{pcinfo}\n"
+                    "{spl} {sp}{spinfo}\n"
+                    "{x0l} {x0}{x0info}\n"
+                    "{x1l} {x1}{x1info}\n"
+                    "{x2l} {x2}{x2info}\n"
+                    "{x3l} {x3}{x3info}\n"
+                    "{x4l} {x4}{x4info}\n"
+                    "{x5l} {x5}{x5info}\n"
+                    "{x6l} {x6}{x6info}\n"
+                    "{x7l} {x7}{x7info}\n"
+                    "{x8l} {x8}{x8info}\n"
+                    "{x9l} {x9}{x9info}\n"
+                    "{x10l} {x10}{x10info}\n"
+                    "{x11l} {x11}{x11info}\n"
+                    "{x12l} {x12}{x12info}\n"
+                    "{x13l} {x13}{x13info}\n"
+                    "{x14l} {x14}{x14info}\n"
+                    "{x15l} {x15}{x15info}\n"
+                    "{x16l} {x16}{x16info}\n"
+                    "{x17l} {x17}{x17info}\n"
+                    "{x18l} {x18}{x18info}\n"
+                    "{x19l} {x19}{x19info}\n"
+                    "{x20l} {x20}{x20info}\n"
+                    "{x21l} {x21}{x21info}\n"
+                    "{x22l} {x22}{x22info}\n"
+                    "{x23l} {x23}{x23info}\n"
+                    "{x24l} {x24}{x24info}\n"
+                    "{x25l} {x25}{x25info}\n"
+                    "{x26l} {x26}{x26info}\n"
+                    "{x27l} {x27}{x27info}\n"
+                    "{x28l} {x28}{x28info}\n"
+                    "{x29l} {x29}{x29info}\n"
+                    "{x30l} {x30}{x30info}\n"
+                ),
+            },
+            "vertical": {
+                "general": (
+                    "{pcl} {pc}{pcinfo}\n"
+                    "{spl} {sp}{spinfo}\n"
+                    "{x0l} {x0}{x0info}\n"
+                    "{x1l} {x1}{x1info}\n"
+                    "{x2l} {x2}{x2info}\n"
+                    "{x3l} {x3}{x3info}\n"
+                    "{x4l} {x4}{x4info}\n"
+                    "{x5l} {x5}{x5info}\n"
+                    "{x6l} {x6}{x6info}\n"
+                    "{x7l} {x7}{x7info}\n"
+                    "{x8l} {x8}{x8info}\n"
+                    "{x9l} {x9}{x9info}\n"
+                    "{x10l} {x10}{x10info}\n"
+                    "{x11l} {x11}{x11info}\n"
+                    "{x12l} {x12}{x12info}\n"
+                    "{x13l} {x13}{x13info}\n"
+                    "{x14l} {x14}{x14info}\n"
+                    "{x15l} {x15}{x15info}\n"
+                    "{x16l} {x16}{x16info}\n"
+                    "{x17l} {x17}{x17info}\n"
+                    "{x18l} {x18}{x18info}\n"
+                    "{x19l} {x19}{x19info}\n"
+                    "{x20l} {x20}{x20info}\n"
+                    "{x21l} {x21}{x21info}\n"
+                    "{x22l} {x22}{x22info}\n"
+                    "{x23l} {x23}{x23info}\n"
+                    "{x24l} {x24}{x24info}\n"
+                    "{x25l} {x25}{x25info}\n"
+                    "{x26l} {x26}{x26info}\n"
+                    "{x27l} {x27}{x27info}\n"
+                    "{x28l} {x28}{x28info}\n"
+                    "{x29l} {x29}{x29info}\n"
+                    "{x30l} {x30}{x30info}\n"
+                ),
+            },
+        },
     }
-    FLAG_BITS = {'c': 0, 'p': 2, 'a': 4, 'z': 6, 's': 7, 't': 8, 'i': 9, 'd': 10, 'o': 11}
+    FLAG_BITS = {
+        "c": 0,
+        "p": 2,
+        "a": 4,
+        "z": 6,
+        "s": 7,
+        "t": 8,
+        "i": 9,
+        "d": 10,
+        "o": 11,
+    }
     FLAG_TEMPLATE = "{o} {d} {i} {t} {s} {z} {a} {p} {c}"
     XMM_INDENT = 7
     last_regs = None
@@ -483,26 +769,84 @@ class RegisterView (TerminalView):
 
     @classmethod
     def configure_subparser(cls, subparsers):
-        sp = subparsers.add_parser('registers', help='register values', aliases=('r', 'reg', 'register'))
+        sp = subparsers.add_parser(
+            "registers", help="register values", aliases=("r", "reg", "register")
+        )
         VoltronView.add_generic_arguments(sp)
         sp.set_defaults(func=RegisterView)
         g = sp.add_mutually_exclusive_group()
-        g.add_argument('--horizontal', '-o', dest="orientation", action='store_const', const="horizontal",
-                       help='horizontal orientation')
-        g.add_argument('--vertical', '-v', dest="orientation", action='store_const', const="vertical",
-                       help='vertical orientation (default)')
-        sp.add_argument('--general', '-g', dest="sections", action='append_const', const="general",
-                        help='show general registers')
-        sp.add_argument('--no-general', '-G', dest="sections", action='append_const', const="no_general",
-                        help='hide general registers')
-        sp.add_argument('--sse', '-s', dest="sections", action='append_const', const="sse", help='show sse registers')
-        sp.add_argument('--no-sse', '-S', dest="sections", action='append_const', const="no_sse",
-                        help='hide sse registers')
-        sp.add_argument('--fpu', '-p', dest="sections", action='append_const', const="fpu", help='show fpu registers')
-        sp.add_argument('--no-fpu', '-P', dest="sections", action='append_const', const="no_fpu",
-                        help='hide fpu registers')
-        sp.add_argument('--hide-info', '-I',dest="hide_info", action='store_true', help='hide extra info (pointer derefs, ascii) for registers',
-                        default=False)
+        g.add_argument(
+            "--horizontal",
+            "-o",
+            dest="orientation",
+            action="store_const",
+            const="horizontal",
+            help="horizontal orientation",
+        )
+        g.add_argument(
+            "--vertical",
+            "-v",
+            dest="orientation",
+            action="store_const",
+            const="vertical",
+            help="vertical orientation (default)",
+        )
+        sp.add_argument(
+            "--general",
+            "-g",
+            dest="sections",
+            action="append_const",
+            const="general",
+            help="show general registers",
+        )
+        sp.add_argument(
+            "--no-general",
+            "-G",
+            dest="sections",
+            action="append_const",
+            const="no_general",
+            help="hide general registers",
+        )
+        sp.add_argument(
+            "--sse",
+            "-s",
+            dest="sections",
+            action="append_const",
+            const="sse",
+            help="show sse registers",
+        )
+        sp.add_argument(
+            "--no-sse",
+            "-S",
+            dest="sections",
+            action="append_const",
+            const="no_sse",
+            help="hide sse registers",
+        )
+        sp.add_argument(
+            "--fpu",
+            "-p",
+            dest="sections",
+            action="append_const",
+            const="fpu",
+            help="show fpu registers",
+        )
+        sp.add_argument(
+            "--no-fpu",
+            "-P",
+            dest="sections",
+            action="append_const",
+            const="no_fpu",
+            help="hide fpu registers",
+        )
+        sp.add_argument(
+            "--hide-info",
+            "-I",
+            dest="hide_info",
+            action="store_true",
+            help="hide extra info (pointer derefs, ascii) for registers",
+            default=False,
+        )
 
     def __init__(self, *args, **kwargs):
         super(RegisterView, self).__init__(*args, **kwargs)
@@ -513,7 +857,11 @@ class RegisterView (TerminalView):
         if self.args.orientation is not None:
             self.config.orientation = self.args.orientation
         if self.args.sections is not None:
-            a = filter(lambda x: 'no_' + x not in self.args.sections and not x.startswith('no_'), list(self.config.sections) + self.args.sections)
+            a = filter(
+                lambda x: "no_" + x not in self.args.sections
+                and not x.startswith("no_"),
+                list(self.config.sections) + self.args.sections,
+            )
             config_sections = []
             for sec in a:
                 if sec not in config_sections:
@@ -522,16 +870,18 @@ class RegisterView (TerminalView):
 
     def build_requests(self):
         return [
-            api_request('targets', block=self.block),
-            api_request('disassemble', count=1, block=self.block),
-            api_request('registers', block=self.block)
+            api_request("targets", block=self.block),
+            api_request("disassemble", count=1, block=self.block),
+            api_request("registers", block=self.block),
         ]
 
     def render(self, results):
         error = None
         t_res, d_res, r_res = results
-        formatter = pygments.formatters.get_formatter_by_name(self.config.format.pygments_formatter,
-                                                              style=self.config.format.pygments_style)
+        formatter = pygments.formatters.get_formatter_by_name(
+            self.config.format.pygments_formatter,
+            style=self.config.format.pygments_style,
+        )
 
         def format(tok, tik=None):
             if tik:
@@ -540,6 +890,7 @@ class RegisterView (TerminalView):
                 return pygments.format([tok], formatter)
             else:
                 return pygments.format(tok, formatter)
+
         self.f = format
 
         if t_res and t_res.is_error:
@@ -547,7 +898,7 @@ class RegisterView (TerminalView):
         elif t_res is None or t_res and len(t_res.targets) == 0:
             error = "No such target"
         else:
-            arch = t_res.targets[0]['arch']
+            arch = t_res.targets[0]["arch"]
             self.curr_arch = arch
 
             # ensure the architecture is supported
@@ -556,7 +907,9 @@ class RegisterView (TerminalView):
             else:
                 # get next instruction
                 try:
-                    self.curr_inst = d_res.disassembly.strip().split('\n')[-1].split(':')[1].strip()
+                    self.curr_inst = (
+                        d_res.disassembly.strip().split("\n")[-1].split(":")[1].strip()
+                    )
                 except:
                     self.curr_inst = None
 
@@ -567,11 +920,16 @@ class RegisterView (TerminalView):
         # if everything is ok, render the view
         if not error:
             # Build template
-            template = '\n'.join(map(lambda x: self.TEMPLATES[arch][self.config.orientation][x], self.config.sections))
+            template = "\n".join(
+                map(
+                    lambda x: self.TEMPLATES[arch][self.config.orientation][x],
+                    self.config.sections,
+                )
+            )
 
             # Process formatting settings
-            addr_size = t_res.targets[0]['addr_size']
-            data = defaultdict(lambda: 'n/a')
+            addr_size = t_res.targets[0]["addr_size"]
+            data = defaultdict(lambda: "n/a")
             data.update(r_res.registers)
             formats = self.FORMAT_INFO[arch]
             formatted = {}
@@ -580,68 +938,102 @@ class RegisterView (TerminalView):
                 fmt = dict(list(self.config.format.items()) + list(fmt.items()))
 
                 # Format the data for each register
-                for reg in fmt['regs']:
+                for reg in fmt["regs"]:
                     # Format the label
-                    label = fmt['label_format'].format(reg)
-                    if fmt['label_func'] != None:
-                        formatted[reg + 'l'] = getattr(self, fmt['label_func'])(str(label))
-                    if fmt['label_colour_en']:
-                        formatted[reg + 'l'] = format(Name.Label, formatted[reg + 'l'])
+                    label = fmt["label_format"].format(reg)
+                    if fmt["label_func"] != None:
+                        formatted[reg + "l"] = getattr(self, fmt["label_func"])(
+                            str(label)
+                        )
+                    if fmt["label_colour_en"]:
+                        formatted[reg + "l"] = format(Name.Label, formatted[reg + "l"])
 
                     # Format the value
                     val = data[reg]
                     if isinstance(val, STRTYPES):
-                        temp = fmt['value_format'].format(0)
+                        temp = fmt["value_format"].format(0)
                         if len(val) < len(temp):
-                            val += (len(temp) - len(val)) * ' '
+                            val += (len(temp) - len(val)) * " "
                         formatted_reg = format(Text, val)
                     else:
                         token = Text
-                        if self.last_regs is None or self.last_regs is not None and val != self.last_regs[reg]:
+                        if (
+                            self.last_regs is None
+                            or self.last_regs is not None
+                            and val != self.last_regs[reg]
+                        ):
                             token = Error
                         formatted_reg = val
-                        if fmt['value_format'] != None and isinstance(formatted_reg, NumberType):
-                            formatted_reg = fmt['value_format'].format(formatted_reg)
-                        if fmt['value_func'] != None:
-                            if isinstance(fmt['value_func'], STRTYPES):
-                                formatted_reg = getattr(self, fmt['value_func'])(formatted_reg)
+                        if fmt["value_format"] != None and isinstance(
+                            formatted_reg, NumberType
+                        ):
+                            formatted_reg = fmt["value_format"].format(formatted_reg)
+                        if fmt["value_func"] != None:
+                            if isinstance(fmt["value_func"], STRTYPES):
+                                formatted_reg = getattr(self, fmt["value_func"])(
+                                    formatted_reg
+                                )
                             else:
-                                formatted_reg = fmt['value_func'](formatted_reg)
+                                formatted_reg = fmt["value_func"](formatted_reg)
                         formatted_reg = format(token, formatted_reg)
-                    if fmt['format_name'] == None:
+                    if fmt["format_name"] == None:
                         formatted[reg] = formatted_reg
                     else:
-                        formatted[fmt['format_name']] = formatted_reg
+                        formatted[fmt["format_name"]] = formatted_reg
 
                     # Format the info
                     if not self.args.hide_info:
                         info = ""
                         try:
-                            l = {2: 'H', 4: 'L', 8: 'Q'}[t_res.targets[0]['addr_size']]
-                            x = '{}{}'.format(('<' if t_res.targets[0]['byte_order'] == 'little' else '>'), l)
+                            l = {2: "H", 4: "L", 8: "Q"}[t_res.targets[0]["addr_size"]]
+                            x = "{}{}".format(
+                                (
+                                    "<"
+                                    if t_res.targets[0]["byte_order"] == "little"
+                                    else ">"
+                                ),
+                                l,
+                            )
                             chunk = struct.pack(x, data[reg])
-                            printable_filter = ''.join([(len(repr(chr(x))) == 3) and chr(x) or '.' for x in range(256)])
-                            ascii_str = ''.join(["%s" % ((x <= 127 and printable_filter[x]) or '.') for x in six.iterbytes(chunk)])
-                            pipe = format(Punctuation, '|')
-                            info += ' ' + pipe + ' ' + ascii_str + ' ' + pipe
+                            printable_filter = "".join(
+                                [
+                                    (len(repr(chr(x))) == 3) and chr(x) or "."
+                                    for x in range(256)
+                                ]
+                            )
+                            ascii_str = "".join(
+                                [
+                                    "%s" % ((x <= 127 and printable_filter[x]) or ".")
+                                    for x in six.iterbytes(chunk)
+                                ]
+                            )
+                            pipe = format(Punctuation, "|")
+                            info += " " + pipe + " " + ascii_str + " " + pipe
                         except:
                             pass
                         try:
-                            fmtd = [(Punctuation, ' => ')]
+                            fmtd = [(Punctuation, " => ")]
                             for t, item in r_res.deref[reg][1:]:
                                 if t == "pointer":
-                                    fmtd.append((Number.Hex, self.format_address(item, size=addr_size, pad=False)))
+                                    fmtd.append(
+                                        (
+                                            Number.Hex,
+                                            self.format_address(
+                                                item, size=addr_size, pad=False
+                                            ),
+                                        )
+                                    )
                                 elif t == "string":
-                                    item = item.replace('\n', '\\n')
+                                    item = item.replace("\n", "\\n")
                                     fmtd.append((String.Double, '"' + item + '"'))
                                 elif t == "unicode":
-                                    item = item.replace('\n', '\\n')
+                                    item = item.replace("\n", "\\n")
                                     fmtd.append((String.Double, 'u"' + item + '"'))
                                 elif t == "symbol":
-                                    fmtd.append((Name.Function, '`' + item + '`'))
+                                    fmtd.append((Name.Function, "`" + item + "`"))
                                 elif t == "circular":
-                                    fmtd.append((Text, '(circular)'))
-                                fmtd.append((Punctuation, ' => '))
+                                    fmtd.append((Text, "(circular)"))
+                                fmtd.append((Punctuation, " => "))
                             if len(r_res.deref[reg][1:]):
                                 info += format(fmtd[:-1])
                         except KeyError:
@@ -649,11 +1041,11 @@ class RegisterView (TerminalView):
                         except IndexError:
                             pass
                     else:
-                        info = ''
-                    formatted[reg + 'info'] = info
+                        info = ""
+                    formatted[reg + "info"] = info
 
             # Prepare output
-            log.debug('Formatted: ' + str(formatted))
+            log.debug("Formatted: " + str(formatted))
             self.body = template.format(**formatted)
 
             # Store the regs
@@ -664,15 +1056,15 @@ class RegisterView (TerminalView):
 
         # Prepare headers and footers
         height, width = self.window_size()
-        self.title = '[regs:{}]'.format('|'.join(self.config.sections))
+        self.title = "[regs:{}]".format("|".join(self.config.sections))
         if len(self.title) > width:
-            self.title = '[regs]'
+            self.title = "[regs]"
 
         # Call parent's render method
         super(RegisterView, self).render(results)
 
-    def format_address(self, address, size=8, pad=True, prefix='0x'):
-        fmt = '{:' + ('0=' + str(size * 2) if pad else '') + 'X}'
+    def format_address(self, address, size=8, pad=True, prefix="0x"):
+        fmt = "{:" + ("0=" + str(size * 2) if pad else "") + "X}"
         addr_str = fmt.format(address)
         if prefix:
             addr_str = prefix + addr_str
@@ -682,18 +1074,27 @@ class RegisterView (TerminalView):
         values = {}
 
         # Get formatting info for flags
-        if self.curr_arch == 'x86_64':
-            reg = 'rflags'
-        elif self.curr_arch == 'x86':
-            reg = 'eflags'
-        fmt = dict(list(self.config.format.items()) + list(list(filter(lambda x: reg in x['regs'], self.FORMAT_INFO[self.curr_arch]))[0].items()))
+        if self.curr_arch == "x86_64":
+            reg = "rflags"
+        elif self.curr_arch == "x86":
+            reg = "eflags"
+        fmt = dict(
+            list(self.config.format.items())
+            + list(
+                list(
+                    filter(lambda x: reg in x["regs"], self.FORMAT_INFO[self.curr_arch])
+                )[0].items()
+            )
+        )
 
         # Handle each flag bit
         val = int(val, 10)
         formatted = {}
         for flag in self.FLAG_BITS.keys():
-            values[flag] = (val & (1 << self.FLAG_BITS[flag]) > 0)
-            log.debug("Flag {} value {} (for flags 0x{})".format(flag, values[flag], val))
+            values[flag] = val & (1 << self.FLAG_BITS[flag]) > 0
+            log.debug(
+                "Flag {} value {} (for flags 0x{})".format(flag, values[flag], val)
+            )
             formatted[flag] = str.upper(flag) if values[flag] else flag
             if self.last_flags is not None and self.last_flags[flag] != values[flag]:
                 token = Error
@@ -707,121 +1108,121 @@ class RegisterView (TerminalView):
         # Format with template
         flags = self.FLAG_TEMPLATE.format(**formatted)
 
-        return self.f(Text, '[ ') + flags + self.f(Text, ' ]')
+        return self.f(Text, "[ ") + flags + self.f(Text, " ]")
 
     def format_jump(self, val):
         # Grab flag bits
         val = int(val, 10)
         values = {}
         for flag in self.FLAG_BITS.keys():
-            values[flag] = (val & (1 << self.FLAG_BITS[flag]) > 0)
+            values[flag] = val & (1 << self.FLAG_BITS[flag]) > 0
 
         # If this is a jump instruction, see if it will be taken
         j = None
         if self.curr_inst:
             inst = self.curr_inst.split()[0]
-            if inst in ['ja', 'jnbe']:
-                if not values['c'] and not values['z']:
-                    j = (True, '!c && !z')
+            if inst in ["ja", "jnbe"]:
+                if not values["c"] and not values["z"]:
+                    j = (True, "!c && !z")
                 else:
-                    j = (False, 'c || z')
-            elif inst in ['jae', 'jnb', 'jnc']:
-                if not values['c']:
-                    j = (True, '!c')
+                    j = (False, "c || z")
+            elif inst in ["jae", "jnb", "jnc"]:
+                if not values["c"]:
+                    j = (True, "!c")
                 else:
-                    j = (False, 'c')
-            elif inst in ['jb', 'jc', 'jnae']:
-                if values['c']:
-                    j = (True, 'c')
+                    j = (False, "c")
+            elif inst in ["jb", "jc", "jnae"]:
+                if values["c"]:
+                    j = (True, "c")
                 else:
-                    j = (False, '!c')
-            elif inst in ['jbe', 'jna']:
-                if values['c'] or values['z']:
-                    j = (True, 'c || z')
+                    j = (False, "!c")
+            elif inst in ["jbe", "jna"]:
+                if values["c"] or values["z"]:
+                    j = (True, "c || z")
                 else:
-                    j = (False, '!c && !z')
-            elif inst in ['jcxz', 'jecxz', 'jrcxz']:
-                if self.get_arch() == 'x64':
-                    cx = regs['rcx']
-                elif self.get_arch() == 'x86':
-                    cx = regs['ecx']
+                    j = (False, "!c && !z")
+            elif inst in ["jcxz", "jecxz", "jrcxz"]:
+                if self.get_arch() == "x64":
+                    cx = regs["rcx"]
+                elif self.get_arch() == "x86":
+                    cx = regs["ecx"]
                 if cx == 0:
-                    j = (True, cx + '==0')
+                    j = (True, cx + "==0")
                 else:
-                    j = (False, cx + '!=0')
-            elif inst in ['je', 'jz']:
-                if values['z']:
-                    j = (True, 'z')
+                    j = (False, cx + "!=0")
+            elif inst in ["je", "jz"]:
+                if values["z"]:
+                    j = (True, "z")
                 else:
-                    j = (False, '!z')
-            elif inst in ['jnle', 'jg']:
-                if not values['z'] and values['s'] == values['o']:
-                    j = (True, '!z && s==o')
+                    j = (False, "!z")
+            elif inst in ["jnle", "jg"]:
+                if not values["z"] and values["s"] == values["o"]:
+                    j = (True, "!z && s==o")
                 else:
-                    j = (False, 'z || s!=o')
-            elif inst in ['jge', 'jnl']:
-                if values['s'] == values['o']:
-                    j = (True, 's==o')
+                    j = (False, "z || s!=o")
+            elif inst in ["jge", "jnl"]:
+                if values["s"] == values["o"]:
+                    j = (True, "s==o")
                 else:
-                    j = (False, 's!=o')
-            elif inst in ['jl', 'jnge']:
-                if values['s'] == values['o']:
-                    j = (False, 's==o')
+                    j = (False, "s!=o")
+            elif inst in ["jl", "jnge"]:
+                if values["s"] == values["o"]:
+                    j = (False, "s==o")
                 else:
-                    j = (True, 's!=o')
-            elif inst in ['jle', 'jng']:
-                if values['z'] or values['s'] != values['o']:
-                    j = (True, 'z || s!=o')
+                    j = (True, "s!=o")
+            elif inst in ["jle", "jng"]:
+                if values["z"] or values["s"] != values["o"]:
+                    j = (True, "z || s!=o")
                 else:
-                    j = (False, '!z && s==o')
-            elif inst in ['jne', 'jnz']:
-                if not values['z']:
-                    j = (True, '!z')
+                    j = (False, "!z && s==o")
+            elif inst in ["jne", "jnz"]:
+                if not values["z"]:
+                    j = (True, "!z")
                 else:
-                    j = (False, 'z')
-            elif inst in ['jno']:
-                if not values['o']:
-                    j = (True, '!o')
+                    j = (False, "z")
+            elif inst in ["jno"]:
+                if not values["o"]:
+                    j = (True, "!o")
                 else:
-                    j = (False, 'o')
-            elif inst in ['jnp', 'jpo']:
-                if not values['p']:
-                    j = (True, '!p')
+                    j = (False, "o")
+            elif inst in ["jnp", "jpo"]:
+                if not values["p"]:
+                    j = (True, "!p")
                 else:
-                    j = (False, 'p')
-            elif inst in ['jns']:
-                if not values['s']:
-                    j = (True, '!s')
+                    j = (False, "p")
+            elif inst in ["jns"]:
+                if not values["s"]:
+                    j = (True, "!s")
                 else:
-                    j = (False, 's')
-            elif inst in ['jo']:
-                if values['o']:
-                    j = (True, 'o')
+                    j = (False, "s")
+            elif inst in ["jo"]:
+                if values["o"]:
+                    j = (True, "o")
                 else:
-                    j = (False, '!o')
-            elif inst in ['jp', 'jpe']:
-                if values['p']:
-                    j = (True, 'p')
+                    j = (False, "!o")
+            elif inst in ["jp", "jpe"]:
+                if values["p"]:
+                    j = (True, "p")
                 else:
-                    j = (False, '!p')
-            elif inst in ['js']:
-                if values['s']:
-                    j = (True, 's')
+                    j = (False, "!p")
+            elif inst in ["js"]:
+                if values["s"]:
+                    j = (True, "s")
                 else:
-                    j = (False, '!s')
+                    j = (False, "!s")
 
         # Construct message
         if j is not None:
             taken, reason = j
             if taken:
-                jump = 'Jump ({})'.format(reason)
+                jump = "Jump ({})".format(reason)
             else:
-                jump = '!Jump ({})'.format(reason)
+                jump = "!Jump ({})".format(reason)
         else:
-            jump = ''
+            jump = ""
 
         # Pad out
-        jump = '{:^19}'.format(jump)
+        jump = "{:^19}".format(jump)
 
         # Colour
         if j is not None:
@@ -829,26 +1230,26 @@ class RegisterView (TerminalView):
         else:
             jump = self.f(Text, jump)
 
-        return self.f(Text, '[') + jump + self.f(Text, ']')
+        return self.f(Text, "[") + jump + self.f(Text, "]")
 
     def format_xmm(self, val):
-        if self.config.orientation == 'vertical':
+        if self.config.orientation == "vertical":
             height, width = self.window_size()
             if width < len(SHORT_ADDR_FORMAT_128.format(0)) + self.XMM_INDENT:
-                return val[:16] + '\n' + ' ' * self.XMM_INDENT + val[16:]
+                return val[:16] + "\n" + " " * self.XMM_INDENT + val[16:]
             else:
-                return val[:16] + ':' + val[16:]
+                return val[:16] + ":" + val[16:]
         else:
             return val
 
     def format_fpu(self, val):
-        if self.config.orientation == 'vertical':
+        if self.config.orientation == "vertical":
             return val
         else:
             return val
 
 
 class RegisterViewPlugin(ViewPlugin):
-    plugin_type = 'view'
-    name = 'register'
+    plugin_type = "view"
+    name = "register"
     view_class = RegisterView

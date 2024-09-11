@@ -98,6 +98,7 @@ class DebuggerAdaptor(object):
         "armv7":    {"pc": "pc", "sp": "sp"},
         "armv7s":   {"pc": "pc", "sp": "sp"},
         "arm64":    {"pc": "pc", "sp": "sp"},
+        "aarch64":  {"pc": "pc", "sp": "sp"},
         "arm64e":    {"pc": "pc", "sp": "sp"},
         "powerpc":  {"pc": "pc", "sp": "r1"},
     }
@@ -111,6 +112,7 @@ class DebuggerAdaptor(object):
             "armv7":    (capstone.CS_ARCH_ARM, capstone.CS_MODE_ARM),
             "armv7s":   (capstone.CS_ARCH_ARM, capstone.CS_MODE_ARM),
             "arm64":    (capstone.CS_ARCH_ARM64, capstone.CS_MODE_ARM),
+            "aarch64":  (capstone.CS_ARCH_ARM64, capstone.CS_MODE_ARM),
             "arm64e":    (capstone.CS_ARCH_ARM64, capstone.CS_MODE_ARM),
             "powerpc":  (capstone.CS_ARCH_PPC, capstone.CS_MODE_32),
         }
